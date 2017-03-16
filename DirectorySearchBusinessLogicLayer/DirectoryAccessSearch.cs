@@ -1,24 +1,18 @@
-﻿using DawsWebApiService.dawsSoap;
+﻿using DirectorySearchBusinessLogicLayer.gov.ny.svc.daws;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Threading;
+using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http;
-using System.Xml;
 
-namespace DawsWebApiService.Controllers
+namespace DirectorySearchBusinessLogicLayer
 {
-    public class NyGovQueryController : ApiController
+    public class DirectoryAccessSearch
     {
-        public IHttpActionResult GetUser(String uid)
+        public String GetUser(String uid)
         {
-            String user = "mjordan";
-
-           //GlobalProxySelection.Select = new WebProxy("127.0.0.1", 8888);
+            String user = "";
 
             BatchRequest batch = new BatchRequest();
             SearchRequest search = new SearchRequest();
@@ -53,7 +47,7 @@ namespace DawsWebApiService.Controllers
                 //myproxy.Credentials = new NetworkCredential("mjordan", "fuckU023$6");
                 //client.Proxy = myproxy;
                 response = client.directoryRequest(batch);
-                Thread.Sleep(10000);
+                
             }
             catch (Exception e)
             {
@@ -87,7 +81,6 @@ namespace DawsWebApiService.Controllers
                             {
                                 System.Diagnostics.Debug.WriteLine(srEntries[r].dn);
                                 System.Diagnostics.Debug.WriteLine(srEntries[r].attr);
-                                System.Diagnostics.Debug.WriteLine(srEntries[r].control);
                                 DsmlAttr[] attributeList = srEntries[r].attr;
                                 if (attributeList != null)
                                 {
@@ -138,13 +131,8 @@ namespace DawsWebApiService.Controllers
             }
 
 
+            return user;
 
-
-            return Ok(user);
         }
-
-
-
-
     }
 }

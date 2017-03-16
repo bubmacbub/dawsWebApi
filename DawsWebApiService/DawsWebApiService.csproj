@@ -53,6 +53,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -171,6 +172,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Service References\daws.svc.ny.gov\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Web References\dawsSoap\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -216,6 +222,18 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <None Include="Service References\daws.svc.ny.gov\configuration91.svcinfo" />
+    <None Include="Service References\daws.svc.ny.gov\configuration.svcinfo" />
+    <Content Include="Service References\daws.svc.ny.gov\DawsWebApiService.daws.svc.ny.gov.BatchResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\daws.svc.ny.gov\DawsWebApiService.daws.svc.ny.gov.directoryRequestResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\daws.svc.ny.gov\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -234,6 +252,7 @@
     <Content Include="Web References\dawsSoap\BatchResponse.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
+    <None Include="Service References\daws.svc.ny.gov\dsmlQuery.wsdl" />
     <None Include="Web References\dawsSoap\dsmlQuery.wsdl" />
     <Content Include="Web References\dawsSoap\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -266,6 +285,15 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>DawsWebApiService_dawsSoap_dsmlQueryService</CachedSettingsPropName>
     </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\daws.svc.ny.gov\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DirectorySearchBusinessLogicLayer\DirectorySearchBusinessLogicLayer.csproj">
+      <Project>{e532020b-ff67-465d-ac63-ef223fb0c6d0}</Project>
+      <Name>DirectorySearchBusinessLogicLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
