@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawsWebApiService", "DawsWebApiService\DawsWebApiService.csproj", "{EB73A667-15A6-4EC6-9DC3-791ABFB7139A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawsWebApiService.Tests", "DawsWebApiService.Tests\DawsWebApiService.Tests.csproj", "{4DF6E28A-5A4D-4B1C-8FCA-29E32BF0B696}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB73A667-15A6-4EC6-9DC3-791ABFB7139A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB73A667-15A6-4EC6-9DC3-791ABFB7139A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB73A667-15A6-4EC6-9DC3-791ABFB7139A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB73A667-15A6-4EC6-9DC3-791ABFB7139A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DF6E28A-5A4D-4B1C-8FCA-29E32BF0B696}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DF6E28A-5A4D-4B1C-8FCA-29E32BF0B696}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DF6E28A-5A4D-4B1C-8FCA-29E32BF0B696}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DF6E28A-5A4D-4B1C-8FCA-29E32BF0B696}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
