@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DawsWebApiService.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectorySearchBusinessLogicLayer", "DirectorySearchBusinessLogicLayer\DirectorySearchBusinessLogicLayer.csproj", "{E532020B-FF67-465D-AC63-EF223FB0C6D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryServiceModel", "DirectoryServiceModel\DirectoryServiceModel.csproj", "{95DCBC81-D6DD-49D9-8C83-D9C507B38D84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{E532020B-FF67-465D-AC63-EF223FB0C6D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E532020B-FF67-465D-AC63-EF223FB0C6D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E532020B-FF67-465D-AC63-EF223FB0C6D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95DCBC81-D6DD-49D9-8C83-D9C507B38D84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95DCBC81-D6DD-49D9-8C83-D9C507B38D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95DCBC81-D6DD-49D9-8C83-D9C507B38D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95DCBC81-D6DD-49D9-8C83-D9C507B38D84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

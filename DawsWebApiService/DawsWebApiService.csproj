@@ -294,6 +294,10 @@
       <Project>{e532020b-ff67-465d-ac63-ef223fb0c6d0}</Project>
       <Name>DirectorySearchBusinessLogicLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DirectoryServiceModel\DirectoryServiceModel.csproj">
+      <Project>{95dcbc81-d6dd-49d9-8c83-d9c507b38d84}</Project>
+      <Name>DirectoryServiceModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

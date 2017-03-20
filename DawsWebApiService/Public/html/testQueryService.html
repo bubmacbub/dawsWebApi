@@ -9,15 +9,22 @@
         <h2>NY.GOV Users</h2>
     </div>
     <div>
-        <h2>Search by ID</h2>
+        <h2>Search by Organizational Unit</h2>
         <input type="text" id="Id" size="5" />
         <input type="button" value="Search" onclick="find();" />
-        <p id="user" />
+        <input type="button" value="Add User" onclick="addUser();" />
+        <div id="user">
+            <div id="uid"></div>
+            <div id="givenname"></div>
+            <div id="mail"></div>
+            <div id="sn"></div>
+            <div id="nyssoguid"></div>
+        </div>
     </div>
 
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
     <script>
-        var uri = '/api/NyGovQuery?uid=';
+        var uri = '/api/NyGovQuery?ou=';
 
     //$(document).ready(function () {
     //  // Send an AJAX request
@@ -39,12 +46,40 @@
       var id = $('#Id').val();
       $.getJSON(uri +  id)
           .done(function (data) {
-              $('#user').text(data);
+
+              console.log(data);
+              //$('#nyssoguid').text("NYS Gloal Unique Id: " +  data.NysSogUid);
+              //$('#uid').text("UID: " + data.Uid);
+              //$('#givenname').text("Give Name: " + data.Firstname);
+              //$('#mail').text("E-mail Addie: " + data.EmailAddress);
+              //$('#sn').text("Surname: " + data.Surname);
           })
           .fail(function (jqXHR, textStatus, err) {
               $('#user').text('Error: ' + err);
           });
     }
+
+
+
+
+    function addUser() {
+        $.ajax({
+            type: "POST",
+            url: "/api/NyGovQuery",
+            dataType: "json",
+            success: OnSuccess,
+            failure: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    function OnSuccess(data) {
+        console.log(data);
+
+    }
+
+
     </script>
 </body>
 </html>

@@ -16,7 +16,8 @@ namespace DawsWebApiService.Controllers
         {
             //            DawsBusinessLogicLayer.Service.DawsBusinessCoordinator coordinator = new DawsBusinessCoordinator();
             DirectorySearchBusinessLogicLayer.DirectoryAccessSearch search = new DirectorySearchBusinessLogicLayer.DirectoryAccessSearch();
-            ViewBag.Title = search.GetUser("jjtester3");
+            ViewBag.Title = "Home";
+            //search.GetUserByUid("jjtester3");
 
             //GlobalProxySelection.Select = new WebProxy("127.0.0.1", 8888);
             //BatchRequest batch = new BatchRequest();
@@ -27,7 +28,7 @@ namespace DawsWebApiService.Controllers
             //dsmlSoapClient client = new dsmlSoapClient();
             ////client.Endpoint = "https://qadaws.svc.ny.gov/daws/services/dsmlSoapQuery";
             ////batch.searchRequest = new SearchRequest[1] { search };
-            
+
             //client.ClientCredentials.UserName.UserName = "prxwsTL1HESC";
             //client.ClientCredentials.UserName.Password = "sfvwRMnB7N";
             //search.dn = "'o=ny, c=us'";
@@ -56,7 +57,7 @@ namespace DawsWebApiService.Controllers
             //    //myproxy.BypassProxyOnLocal = false;
             //    //myproxy.Credentials = new NetworkCredential("mjordan", "fuckU023$6");
             //    //client.Proxy = myproxy;
-                
+
             //    response = client.directoryRequest(batch);
             //    //Thread.Sleep(10000);
             //}
@@ -149,7 +150,7 @@ namespace DawsWebApiService.Controllers
 
 
 
-                
+
             //}
 
 
