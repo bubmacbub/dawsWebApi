@@ -10,8 +10,9 @@ namespace DirectorySearchBusinessLogicLayer.Service
 {
     public class DirectoryAccessServiceInterface
     {
-        public void GetUsers()
+        public directoryRequestResponse GetUsers()
         {
+            directoryRequestResponse returnThis = null;
             System.Diagnostics.Debug.WriteLine("Going to get users with the service reference proxy");
             //fiddler
             GlobalProxySelection.Select = new WebProxy("127.0.0.1", 8888);
@@ -60,24 +61,27 @@ namespace DirectorySearchBusinessLogicLayer.Service
 
 
             //there can only be one substring in WCF but you can send in multiple in a direct soap envelope
-            SubstringFilter[] substrings = new SubstringFilter[4];
-            SubstringFilter substring = new SubstringFilter();
-            substring.name = "nyacctgovernment";
-            substring.initial = "Y";
-            substrings[0] = substring;
-            SubstringFilter substring1 = new SubstringFilter();
-            substring1.name = "nyacctlevel1";
-            substring1.initial = "Y";
-            substrings[1] = substring1;
+            SubstringFilter[] substrings = new SubstringFilter[2];
+            //SubstringFilter substring = new SubstringFilter();
+            //substring.name = "nyacctgovernment";
+            //substring.initial = "Y";
+            //substrings[0] = substring;
+            //SubstringFilter substring1 = new SubstringFilter();
+            //substring1.name = "nyacctlevel1";
+            //substring1.initial = "Y";
+            //substrings[1] = substring1;
             SubstringFilter substring2 = new SubstringFilter();
             substring2.name = "sn";
             substring2.initial = "smith";
-            substrings[2] = substring2;
-            SubstringFilter substring3 = new SubstringFilter();
-            substring3.name = "ou";
-            substring3.initial = "Department of General Services";
+            substrings[0] = substring2;
+            //SubstringFilter substring3 = new SubstringFilter();
+            //substring3.name = "ou";
+            //substring3.initial = "Department of General Services";
             //substrings[3] = substring3;
-            
+            SubstringFilter substring4 = new SubstringFilter();
+            substring4.name = "mail";
+            substring4.initial = "tax_test@hotmail.com";
+            substrings[1] = substring4;
 
             SubstringFilter anyFilter = new SubstringFilter();
             anyFilter.any = new String[]{ "nyacctgovernment=Y", "nyacctlevel1=Y", "sn=smith"};
@@ -102,13 +106,52 @@ namespace DirectorySearchBusinessLogicLayer.Service
             //There was an error generating the XML document. ---> System.InvalidOperationException: 
             //Invalid or missing value of the choice identifier 'ItemsElementName' of type 'DirectorySearchBusinessLogicLayer.gov.ny.ds.daws.ItemsChoiceType1[]'.
             //using andFilterSet.ItemsElementName = new ItemsChoiceType1[]{ ItemsChoiceType1.substrings, ItemsChoiceType1.substrings, ItemsChoiceType1.substrings};
+            //i initialized the substringfilter array to 4 elements and took one out so i had to even them up to match each other.  itemchoices to filter objects
+            //then got this soap env
+            /*
+             <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><batchRequest xmlns="urn:oasis:names:tc:DSML:2:0:core"><searchRequest dn="ou=People,ou=NYS Department of Taxation and Finance Business Partners,ou=Business,o=ny,c=us" scope="wholeSubtree" derefAliases="neverDerefAliases">
+<filter>
+	<and>
+		<substrings name="nyacctgovernment"><initial>Y</initial></substrings>
+		<substrings name="nyacctlevel1"><initial>Y</initial></substrings>
+		<substrings name="sn"><initial>smith</initial></substrings>
+	</and>
+</filter></searchRequest></batchRequest></s:Body></s:Envelope>
+             */
+            //message is weird b/c if I remove two substring elements I no longer get the msg:
+            //[LDAP: error code 50 - Search filter not permitted (substring too short)]
 
-
+            //just used this in postman and it worked after some messing around with the results to find a possible list of people as a result
+            /*
+              <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"><batchRequest xmlns="urn:oasis:names:tc:DSML:2:0:core"><searchRequest dn="ou=People,ou=NYS Department of Taxation and Finance Business Partners,ou=Business,o=ny,c=us" scope="wholeSubtree" derefAliases="neverDerefAliases">
+<filter>
+	<and>
+		<substrings name="sn"><initial>smith</initial></substrings>
+		<substrings name="mail"><initial>tax_test@hotmail.com</initial></substrings>
+	</and>
+</filter>
+<attributes>
+	<attribute name="nyacctgovernment"/>
+	<attribute name="sn"/>
+	<attribute name="givenname"/>
+	<attribute name="mail"/>
+	<attribute name="uid"/>
+	<attribute name="nyacctpersonal"/>
+	<attribute name="nyacctbusiness"/>
+</attributes>
+</searchRequest></batchRequest></s:Body></s:Envelope>
+             */
+            //now and requests work but got this message
+            //ommunicationException: The maximum message size quota for incoming messages (65536) has been exceeded. To increase the quota, use the MaxReceivedMessageSize property on the appropriate binding element. ---> 
+            //System.ServiceModel.QuotaExceededException: The maximum message size quota for incoming messages (65536) has been exceeded. 
+            //To increase the quota, use the MaxReceivedMessageSize property on the appropriate binding element.  so I'm going to not take so many attributes back
 
 
             FilterSet andFilterSet = new FilterSet();
             andFilterSet.Items = substrings;
-            andFilterSet.ItemsElementName = new ItemsChoiceType1[]{ ItemsChoiceType1.substrings, ItemsChoiceType1.substrings, ItemsChoiceType1.substrings};
+            andFilterSet.ItemsElementName = new ItemsChoiceType1[]{ ItemsChoiceType1.substrings, ItemsChoiceType1.substrings};
 
             filter.Item = andFilterSet;
             filter.ItemElementName = ItemChoiceType.and;
@@ -118,6 +161,10 @@ namespace DirectorySearchBusinessLogicLayer.Service
             //DirectorySearchBusinessLogicLayer.gov.ny.ds.daws.SubstringFilter; you need to set it to DirectorySearchBusinessLogicLayer.gov.ny.ds.daws.ItemChoiceType.@substrings."}
             //System.InvalidOperationException: Value of ItemElementName mismatches the type of DirectorySearchBusinessLogicLayer.gov.ny.ds.daws.SubstringFilter; you need to set it to DirectorySearchBusinessLogicLayer.gov.ny.ds.daws.ItemChoiceType.@substrings.
 
+
+
+
+            
 
 
             //THE CALL
@@ -138,6 +185,10 @@ namespace DirectorySearchBusinessLogicLayer.Service
                         System.Diagnostics.Debug.WriteLine(eResponse.detail);
                         System.Diagnostics.Debug.WriteLine(eResponse.type);
 
+                    }
+                    else
+                    {
+                        returnThis = response;
                     }
                 }
             }
@@ -182,6 +233,7 @@ namespace DirectorySearchBusinessLogicLayer.Service
 
 
             System.Diagnostics.Debug.WriteLine("Finished getting users with the service reference proxy");
+            return returnThis;
         }
     }
 }

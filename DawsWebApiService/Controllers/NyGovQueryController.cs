@@ -35,9 +35,9 @@ namespace DawsWebApiService.Controllers
             //return Ok(users);
 
             DirectorySearchBusinessLogicLayer.Service.DirectoryAccessServiceInterface search = new DirectorySearchBusinessLogicLayer.Service.DirectoryAccessServiceInterface();
-            search.GetUsers(); 
+             
 
-            return Ok();
+            return Ok(search.GetUsers());
         }
 
 

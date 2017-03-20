@@ -2,28 +2,63 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Product App</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <style>
+        .glyphicon.spinning {
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin2 1s infinite linear;
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg); }
+    to { transform: scale(1) rotate(360deg); }
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+
+    </style>
 </head>
 <body>
+    <div id="overallContainer" class="container">
+        <div>
+            <h2>NY.GOV Users</h2>
+        </div>
+        <div>
+            <h2>Search by Organizational Unit</h2>
+            <input type="text" id="Id" size="5" />
 
-    <div>
-        <h2>NY.GOV Users</h2>
-    </div>
-    <div>
-        <h2>Search by Organizational Unit</h2>
-        <input type="text" id="Id" size="5" />
-        <input type="button" value="Search" onclick="find();" />
-        <input type="button" value="Add User" onclick="addUser();" />
-        <div id="user">
-            <div id="uid"></div>
-            <div id="givenname"></div>
-            <div id="mail"></div>
-            <div id="sn"></div>
-            <div id="nyssoguid"></div>
+            <button type="button"  onclick="find();" class="btn btn-primary " id="search" 
+                    data-loading-text="<i class='glyphicon glyphicon-refresh spinning'></i> Searching..">Search</button>
+            
+            <input type="button" value="Add User" onclick="addUser();" />
+            <div id="user">
+                <div id="uid"></div>
+                <div id="givenname"></div>
+                <div id="mail"></div>
+                <div id="sn"></div>
+                <div id="nyssoguid"></div>
+            </div>
+        </div>
+
+
+        <div id="batchResp">
+            <div id="searchResultContainer">
+
+            </div>
         </div>
     </div>
-
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script>
+        $('#search').on('click', function () {
+            var $this = $(this);
+            $this.button('loading');
+            
+        });
         var uri = '/api/NyGovQuery?ou=';
 
     //$(document).ready(function () {
@@ -46,8 +81,8 @@
       var id = $('#Id').val();
       $.getJSON(uri +  id)
           .done(function (data) {
-
-              console.log(data);
+              OnSuccess(data);
+              //console.log(data);
               //$('#nyssoguid').text("NYS Gloal Unique Id: " +  data.NysSogUid);
               //$('#uid').text("UID: " + data.Uid);
               //$('#givenname').text("Give Name: " + data.Firstname);
@@ -76,6 +111,31 @@
 
     function OnSuccess(data) {
         console.log(data);
+        $('#search').button('reset');
+        console.log($('#searchResultContainer'));
+        var bResp = data.batchResponse;
+        var searchResults = bResp.itemsField[0].searchResultEntryField;
+        console.log(searchResults);
+        $.each(searchResults, function (index, item)
+        {
+            $("<div>").attr("id", "dnContain"+index).attr("class", "row")
+            .appendTo("#searchResultContainer");
+            var currentParentDiv = $('#dnContain' + index);
+            var longDn = item.dnField;
+            var arr = longDn.split(',');
+            for(var i=0;i<arr.length;i++)
+            {
+                var childClass = "col-md-2";
+                if (index % 2 == 1)
+                {
+                    childClass = "col-md-2 well";
+                }
+                $("<div>").attr("class",childClass).text(arr[i]).appendTo(currentParentDiv);
+            }
+            //text("dn:" + item.dnField)
+
+        });
+        console.log("Done with search results");
 
     }
 
