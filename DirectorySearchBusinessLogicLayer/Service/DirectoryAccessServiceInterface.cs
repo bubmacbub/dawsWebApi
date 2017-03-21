@@ -10,6 +10,16 @@ namespace DirectorySearchBusinessLogicLayer.Service
 {
     public class DirectoryAccessServiceInterface
     {
+        /// <summary>
+        /// Singleton to be used for getting common client proxy instances stacked with the necessary objects
+        /// </summary>
+        private ProxyFactory proxyfactory = ProxyFactory.Instance;
+
+
+        /// <summary>
+        /// Get those users and just return what the proxy gave us
+        /// </summary>
+        /// <returns></returns>
         public directoryRequestResponse GetUsers()
         {
             directoryRequestResponse returnThis = null;
@@ -302,5 +312,118 @@ namespace DirectorySearchBusinessLogicLayer.Service
             }
             return mainResponse;
         }
+
+        public directoryRequestResponse ModifyUser()
+        {
+            System.Diagnostics.Debug.WriteLine("Going to modify a user with the service reference proxy");
+            //fiddler
+            GlobalProxySelection.Select = new WebProxy("127.0.0.1", 8888);
+
+            dsmlSoapClient client = this.proxyfactory.createClient();
+            directoryRequestRequest mainRequest = proxyfactory.createDirReq(ProxyFactory.BatchRequestTypes.modifyRequest);
+            directoryRequestResponse mainResponse = new directoryRequestResponse();
+            DsmlMessage mReq = mainRequest.batchRequest.Items[0];
+            if(mReq is ModifyRequest)
+            {
+                ModifyRequest modReq = ((ModifyRequest)mReq);
+                modReq.dn= "ou=People,ou=NYS Office of Information Technology Services,ou=Government,o=ny,c=us";
+                DsmlModification mod0 = new DsmlModification();
+                mod0.name = "telephonenumber";
+                mod0.value = new String[] { "555-555-5555" };
+                mod0.operation = DsmlModificationOperation.add;
+                DsmlModification mod1 = new DsmlModification();
+                mod1.name = "nydob";
+                mod1.value = new String[] { "9999-99-99" };
+                mod1.operation = DsmlModificationOperation.replace;
+                DsmlModification[] modifications = new DsmlModification[] { mod0, mod1 };
+            }
+            mainResponse = callClient(client, mainRequest);
+            return mainResponse;
+        }
+
+        private directoryRequestResponse callClient(dsmlSoapClient client, directoryRequestRequest mainRequest)
+        {
+            directoryRequestResponse response = null;
+            try
+            {
+                response = client.directoryRequest(mainRequest);
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Problem calling client: " + e);
+            }
+
+            System.Diagnostics.Debug.WriteLine("Response: " + response);
+            if (response != null)
+            {
+                BatchResponse bResponse = response.batchResponse;
+                Object[] responseItems = bResponse.Items;
+                if (responseItems != null)
+                {
+                    if (responseItems is ErrorResponse[])
+                    {
+                        for (int i = 0; i < responseItems.Length; i++)
+                        {
+                            ErrorResponse eResponse = (ErrorResponse)responseItems[i];
+                            System.Diagnostics.Debug.WriteLine(eResponse.message);
+                            System.Diagnostics.Debug.WriteLine(eResponse.detail);
+                            System.Diagnostics.Debug.WriteLine(eResponse.type);
+                        }
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("Hooray no errors on response from calling client directory request");
+                    }
+                }
+            }
+            return response;
+        }
+
+        public directoryRequestResponse findUser(String uid, String ou)
+        {
+            System.Diagnostics.Debug.WriteLine("Going to find a specific user with the service reference proxy");
+            //fiddler
+            GlobalProxySelection.Select = new WebProxy("127.0.0.1", 8888);
+            dsmlSoapClient client = this.proxyfactory.createClient();
+            directoryRequestRequest mainRequest = proxyfactory.createDirReq(ProxyFactory.BatchRequestTypes.searchRequest);
+            directoryRequestResponse mainResponse = new directoryRequestResponse();
+            DsmlMessage sReq = mainRequest.batchRequest.Items[0];
+            if (sReq is SearchRequest)
+            {
+                SearchRequest search = (SearchRequest)sReq;
+                //ou=People,ou=NYS Office of Information Technology Services,ou=Government,o=ny,c=us
+                search.dn = "ou=People,ou="+ou+",ou=Government,o=ny,c=us";
+                System.Diagnostics.Debug.WriteLine("search.dn");
+                System.Diagnostics.Debug.WriteLine(search.dn);
+                Filter filter = new Filter();
+
+                AttributeValueAssertion ava = new AttributeValueAssertion();
+                ava.name = "uid";
+                ava.value = uid;
+                filter.ItemElementName = ItemChoiceType.equalityMatch;
+                filter.Item = ava;
+                search.scope = SearchRequestScope.wholeSubtree;
+                search.filter = filter;
+
+                AttributeDescriptions attrBucket = new AttributeDescriptions();
+                AttributeDescription[] attributeDescriptionList = new AttributeDescription[9];
+                attributeDescriptionList[0] = new AttributeDescription() { name = "nyacctgovernment" };
+                attributeDescriptionList[1] = new AttributeDescription() { name = "sn" };
+                attributeDescriptionList[2] = new AttributeDescription() { name = "givenname" };
+                attributeDescriptionList[3] = new AttributeDescription() { name = "mail" };
+                attributeDescriptionList[4] = new AttributeDescription() { name = "uid" };
+                attributeDescriptionList[5] = new AttributeDescription() { name = "nyacctpersonal" };
+                attributeDescriptionList[6] = new AttributeDescription() { name = "nyacctbusiness" };
+                attributeDescriptionList[7] = new AttributeDescription() { name = "telephonenumber" };
+                attributeDescriptionList[8] = new AttributeDescription() { name = "nydob" };
+                attrBucket.attribute = attributeDescriptionList;
+                search.attributes = attrBucket;
+
+                mainResponse = callClient(client, mainRequest);
+            }
+            
+            return mainResponse;
+        }
+
     }
 }

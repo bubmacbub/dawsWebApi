@@ -22,15 +22,5 @@ namespace DawsWebApiService.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:9080/dsml/services/dsmlSoapQuery")]
-        public string DawsWebApiService_dawsSoap_dsmlQueryService {
-            get {
-                return ((string)(this["DawsWebApiService_dawsSoap_dsmlQueryService"]));
-            }
-        }
     }
 }

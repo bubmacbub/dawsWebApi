@@ -1,18 +1,11 @@
-﻿using DawsWebApiService.dawsSoap;
-using DirectoryServiceModel.Model;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System;
 using System.Web.Http;
-using System.Xml;
 
 namespace DawsWebApiService.Controllers
 {
+    /// <summary>
+    /// Service for looking up DAWS users in different ways.  Finds are http gets.  Post is create.  <i>so and on and so on.</i>
+    /// </summary>
     public class NyGovQueryController : ApiController
     {
 
@@ -23,11 +16,11 @@ namespace DawsWebApiService.Controllers
         [HttpGet]
         public IHttpActionResult GetUser(String uid, String ou)
         {
-            DirectorySearchBusinessLogicLayer.DirectoryAccessSearch search = new DirectorySearchBusinessLogicLayer.DirectoryAccessSearch();
-            NyGovUser user = search.GetUserByUid(uid, ou);
+            //DirectorySearchBusinessLogicLayer.DirectoryAccessSearch search = new DirectorySearchBusinessLogicLayer.DirectoryAccessSearch();
+            //NyGovUser user = search.GetUserByUid(uid, ou);
+            DirectorySearchBusinessLogicLayer.Service.DirectoryAccessServiceInterface search = new DirectorySearchBusinessLogicLayer.Service.DirectoryAccessServiceInterface();
 
-
-            return Ok(user);
+            return Ok(search.findUser(uid,ou));
         }
 
         /// <summary>
@@ -65,7 +58,17 @@ namespace DawsWebApiService.Controllers
             return Ok(search.AddUser());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        //[HttpPut("{id}")]
+        //public IHttpActionResult Update(long id, [FromBody]  item)
+        //{
 
+        //    }
 
-    }
+        }
 }

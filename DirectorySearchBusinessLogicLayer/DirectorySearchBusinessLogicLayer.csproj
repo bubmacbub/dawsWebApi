@@ -57,6 +57,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Service\DirectoryAccessServiceInterface.cs" />
+    <Compile Include="Service\ProxyFactory.cs" />
     <Compile Include="Web References\gov.ny.svc.daws\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
