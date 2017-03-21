@@ -14,18 +14,20 @@
             <input id="ou" name="ou" type="text" value="NYS Office of Information Technology Services" />
         </form>
         <form action="/" method="post">
-                <div id="snAndMail" class="row form-group">
-                    <div id="dn" class="col-lg-6"><label for="dnInput">DN:</label><input id="dnInput" type="text" class="form-control"/></div>
-                    <div id="mail" class="col-lg-6"><label for="mailInput">E-Mail:</label><input id="mailInput" type="text" class="form-control"/></div>
+            <div id="formContainer">
+                <!--<div id="snAndMail" class="row form-group">
+                    <div id="dn" class="col-lg-6"><label for="dnInput">DN:</label><input id="dnInput" type="text" class="form-control" /></div>
+                    <div id="mail" class="col-lg-6"><label for="mailInput">E-Mail:</label><input id="mailInput" type="text" class="form-control" /></div>
                 </div>
                 <div id="givenAndSn" class="row form-group">
-                    <div id="givenname" class="col-lg-6"><label for="givennameInput">GivenName:</label><input id="givennameInput" type="text" class="form-control"/></div>
-                    <div id="sn" class="col-lg-6"><label for="snInput">SN:</label><input id="snInput" type="text" class="form-control"/></div>
-                </div>
-            <button type="button" onclick="update();" class="btn btn-primary " id="updateButton"
-                    data-loading-text="<i class='glyphicon glyphicon-refresh spinning'></i> Updating..">
-                Search
-            </button>
+                    <div id="givenname" class="col-lg-6"><label for="givennameInput">GivenName:</label><input id="givennameInput" type="text" class="form-control" /></div>
+                    <div id="sn" class="col-lg-6"><label for="snInput">SN:</label><input id="snInput" type="text" class="form-control" /></div>
+                </div>-->
+                <button type="button" onclick="update();" class="btn btn-primary " id="updateButton"
+                        data-loading-text="<i class='glyphicon glyphicon-refresh spinning'></i> Updating..">
+                    Search
+                </button>
+            </div>
 </form>
     </div>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
@@ -40,20 +42,73 @@
             $(this).button('loading');
 
         });
-    $(document).ready(function () {
-        
-        var formData = $('#senditonin').serialize();
-        console.log(formData);
-        $.ajax({
-            url: uri,
-            context: document.body,
-            data: formData,
-            //data: { uid: "MontyJordanEBSTest001", ou: "NYS Office of Information Technology Services" },
-        }).done(function (data) {
-            console.log(data);
+        $(document).ready(function ()
+        {
+            var formData = $('#senditonin').serialize();
+            console.log(formData);
+            $.ajax({
+                url: uri,
+                context: document.body,
+                data: formData,
+            }).done(successfullyFoundUser);
         });
-    });
 
+    function successfullyFoundUser(data)
+    {
+        console.log(data);
+        var bResp = data.batchResponse;
+        var searchResults = bResp.itemsField[0];
+        if(searchResults != null)
+        {
+            console.log("Got an item field from the batch response");
+            if(searchResults.searchResultEntryField != null)
+            {
+                var sref = searchResults.searchResultEntryField;
+                console.log("Got an search result entry field from item field");
+                if (sref.length > 0)
+                {
+                    $('#dnInput').attr("value", (sref[0].dnField));
+                }
+                var attributes = sref[0].attrField;
+                console.log(attributes);
+                if(attributes != null)
+                {
+                    for (var i = 0; i < attributes.length; i++) {
+                        var attr = attributes[i];
+                        console.log(attr);
+                        var attrName = attr.nameField;
+                        console.log(attrName);
+                        var attrValue =(attr.valueField[0]);
+                        //MAKE THIS DYNAMIC.  JUST CREATE WHATEVER LABEL AND INPUTS THAT WE ARE GIVEN
+                        //THEN ALLOW USER TO ADD A NEW ATTRIBUTE WITH A BUTTON THAT CREATES TWO BLANK INPUTS, ONE FOR LABEL ONE FOR VALUE
+                        //switch (attrName) {
+                        //    case "mail":
+                        //        {
+                        //            $('#mailInput').attr("value", attrValue);
+                        //            break;
+                        //        }
+                        //    case "givenname":
+                        //        {
+                        //            $('#givennameInput').attr("value", attrValue)
+                        //        }
+                        //    default:
+                        //        {
+                                    $("<div>").attr("id", "dynInputContain" + i).attr("class", "row form-group")
+           .appendTo("#formContainer");
+                                    $("<div>").attr("id", attrName).attr("class", "col-lg-6")
+          .appendTo("#dynInputContain" + i);
+                                    $("<label>").attr("for", attrName + "Input").text(attrName).appendTo("#" + attrName);
+                                    $("<input>").attr("id", attrName + "Input").attr("value", attrValue).attr("class", "form-control").appendTo("#" + attrName);
+
+                              //}
+
+                       // }
+                    }
+                }
+
+            }
+        }
+    }
 
 
 
