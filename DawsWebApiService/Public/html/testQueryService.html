@@ -27,21 +27,13 @@
         <div>
             <h2>NY.GOV Users</h2>
         </div>
+        <div id="errorResp"></div>
         <div>
             <h2>Search by Organizational Unit</h2>
             <input type="text" id="Id" size="5" />
-
             <button type="button"  onclick="find();" class="btn btn-primary " id="search" 
                     data-loading-text="<i class='glyphicon glyphicon-refresh spinning'></i> Searching..">Search</button>
-            
             <input type="button" value="Add User" onclick="addUser();" />
-            <div id="user">
-                <div id="uid"></div>
-                <div id="givenname"></div>
-                <div id="mail"></div>
-                <div id="sn"></div>
-                <div id="nyssoguid"></div>
-            </div>
         </div>
 
 
@@ -61,17 +53,6 @@
         });
         var uri = '/api/NyGovQuery?ou=';
 
-    //$(document).ready(function () {
-    //  // Send an AJAX request
-    //  $.getJSON(uri)
-    //      .done(function (data) {
-    //        // On success, 'data' contains a list of products.
-    //        $.each(data, function (key, item) {
-    //          // Add a list item for the product.
-    //          $('<li>', { text: formatItem(item) }).appendTo($('#products'));
-    //        });
-    //      });
-    //});
 
     function formatItem(item) {
       return item.Name + ': $' + item.Price;
@@ -82,12 +63,7 @@
       $.getJSON(uri +  id)
           .done(function (data) {
               OnSuccess(data);
-              //console.log(data);
-              //$('#nyssoguid').text("NYS Gloal Unique Id: " +  data.NysSogUid);
-              //$('#uid').text("UID: " + data.Uid);
-              //$('#givenname').text("Give Name: " + data.Firstname);
-              //$('#mail').text("E-mail Addie: " + data.EmailAddress);
-              //$('#sn').text("Surname: " + data.Surname);
+
           })
           .fail(function (jqXHR, textStatus, err) {
               $('#user').text('Error: ' + err);
@@ -102,7 +78,7 @@
             type: "POST",
             url: "/api/NyGovQuery",
             dataType: "json",
-            success: OnSuccess,
+            success: OnAddSuccess,
             failure: function (response) {
                 console.log(response);
             }
@@ -112,31 +88,48 @@
     function OnSuccess(data) {
         console.log(data);
         $('#search').button('reset');
+        console.log("Search Container: ");
         console.log($('#searchResultContainer'));
+        $('#searchResultContainer').empty();
         var bResp = data.batchResponse;
         var searchResults = bResp.itemsField[0].searchResultEntryField;
         console.log(searchResults);
         $.each(searchResults, function (index, item)
         {
-            $("<div>").attr("id", "dnContain"+index).attr("class", "row")
+            var childClass = "row"
+            if (index % 2 == 1) {
+                childClass = "row well";
+            }
+            $("<div>").attr("id", "dnContain"+index).attr("class", childClass)
             .appendTo("#searchResultContainer");
             var currentParentDiv = $('#dnContain' + index);
             var longDn = item.dnField;
             var arr = longDn.split(',');
             for(var i=0;i<arr.length;i++)
             {
-                var childClass = "col-md-2";
-                if (index % 2 == 1)
-                {
-                    childClass = "col-md-2 well";
-                }
-                $("<div>").attr("class",childClass).text(arr[i]).appendTo(currentParentDiv);
+                
+                $("<div>").attr("class","col-md-2").text(arr[i]).appendTo(currentParentDiv);
             }
             //text("dn:" + item.dnField)
 
         });
         console.log("Done with search results");
 
+    }
+    function OnAddSuccess(data)
+    {
+        console.log("Add User call was successful");
+        console.log(data);
+        var bResp = data.batchResponse;
+        var addResults = bResp.itemsField[0];
+        if(addResults.errorMessageField != null)
+        {
+            $('#searchResultContainer').empty();
+        }
+        else
+        {
+            $('#errorResp').text("Issue with adding user");
+        }
     }
 
 

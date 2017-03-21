@@ -15,6 +15,11 @@ namespace DawsWebApiService.Controllers
 {
     public class NyGovQueryController : ApiController
     {
+
+        /// <summary>
+        /// Looks up a particular user from NYSD's DAWS
+        /// </summary>
+        /// <param name="id">returns json</param>
         [HttpGet]
         public IHttpActionResult GetUser(String uid, String ou)
         {
@@ -25,6 +30,11 @@ namespace DawsWebApiService.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Uses service reference to query an OU with additional filters
+        /// </summary>
+        /// <param name="ou"></param>
+        /// <returns></returns>
         [HttpGet]
         public IHttpActionResult GetUsers(String ou)
         {
@@ -41,14 +51,18 @@ namespace DawsWebApiService.Controllers
         }
 
 
+        /// <summary>
+        /// According to the permission of the user and the OU being inserted into will create a DAWS record
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         public IHttpActionResult AddUser()
         {
-            DirectorySearchBusinessLogicLayer.DirectoryAccessSearch search = new DirectorySearchBusinessLogicLayer.DirectoryAccessSearch();
-            search.AddUser();
+            //DirectorySearchBusinessLogicLayer.DirectoryAccessSearch search = new DirectorySearchBusinessLogicLayer.DirectoryAccessSearch();
+            //search.AddUser();
+            DirectorySearchBusinessLogicLayer.Service.DirectoryAccessServiceInterface search = new DirectorySearchBusinessLogicLayer.Service.DirectoryAccessServiceInterface();
 
-
-            return Ok("success");
+            return Ok(search.AddUser());
         }
 
 

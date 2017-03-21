@@ -7,6 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DirectoryServiceModel.Model;
 
+
+/// <summary>
+/// A web reference proxy for DAWS @ https://qadaws.svc.ny.gov/daws/dsmlQuery_v3.wsdl
+/// </summary>
 namespace DirectorySearchBusinessLogicLayer
 {
     public class DirectoryAccessSearch

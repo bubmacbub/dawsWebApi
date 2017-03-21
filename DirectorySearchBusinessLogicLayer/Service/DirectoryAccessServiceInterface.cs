@@ -15,7 +15,7 @@ namespace DirectorySearchBusinessLogicLayer.Service
             directoryRequestResponse returnThis = null;
             System.Diagnostics.Debug.WriteLine("Going to get users with the service reference proxy");
             //fiddler
-            GlobalProxySelection.Select = new WebProxy("127.0.0.1", 8888);
+            //GlobalProxySelection.Select = new WebProxy("127.0.0.1", 8888);
 
             dsmlSoapClient client = new dsmlSoapClient();
             BatchRequest batchRequest = new BatchRequest();
@@ -234,6 +234,73 @@ namespace DirectorySearchBusinessLogicLayer.Service
 
             System.Diagnostics.Debug.WriteLine("Finished getting users with the service reference proxy");
             return returnThis;
+        }
+
+        public directoryRequestResponse AddUser()
+        {
+            System.Diagnostics.Debug.WriteLine("Going to add a user with the service reference proxy");
+            //fiddler
+            GlobalProxySelection.Select = new WebProxy("127.0.0.1", 8888);
+
+            dsmlSoapClient client = new dsmlSoapClient();
+            directoryRequestRequest mainRequest = new directoryRequestRequest();
+            directoryRequestResponse mainResponse = new directoryRequestResponse();
+            BatchRequest batchRequest = new BatchRequest();
+            AddRequest addRequest = new AddRequest();
+            client.ClientCredentials.UserName.UserName = "prxWSTL2OFTmedia";
+            client.ClientCredentials.UserName.Password = "3RywE4?w";
+            AddRequest[] aReqs = new AddRequest[1];
+            aReqs[0] = addRequest;
+            batchRequest.Items = aReqs;
+            mainRequest.batchRequest = batchRequest;
+
+            addRequest.dn = "ou=People,ou=NYS Office of Information Technology Services,ou=Government,o=ny,c=us";
+
+
+            DsmlAttr[] attributesToAdd = new DsmlAttr[11];
+            attributesToAdd[0] = new DsmlAttr() { name = "dn", value = new String[] { "ou=People,ou=NYS Office of Information Technology Services,ou=Government,o=ny,c=us" } };
+            attributesToAdd[1] = new DsmlAttr() { name = "sn", value = new String[] { "Jordan" } };
+            attributesToAdd[2] = new DsmlAttr() { name = "uid", value = new String[] { "MontyJordanEBSTest001" } };
+            attributesToAdd[3] = new DsmlAttr() { name = "givenname", value = new String[] { "Monty" } };
+            attributesToAdd[4] = new DsmlAttr() { name = "mail", value = new String[] { "testDaws@its.ny.gov" } };
+            attributesToAdd[5] = new DsmlAttr() { name = "userpassword", value = new String[] { "uzRpa$$w0Rd" } };
+            attributesToAdd[6] = new DsmlAttr() { name = "nyaccttl", value = new String[] { "1" } };
+            attributesToAdd[7] = new DsmlAttr() { name = "nyaccttlidsource1", value = new String[] { "n/a" } };
+            attributesToAdd[8] = new DsmlAttr() { name = "nyaccttlidsource2", value = new String[] { "n/a" } };
+            attributesToAdd[9] = new DsmlAttr() { name = "nyaccttlivmethod", value = new String[] { "n/a" } };
+            attributesToAdd[10] = new DsmlAttr() { name = "vetted", value = new String[] { "n/a" } };
+
+            addRequest.attr = attributesToAdd;
+
+           try
+            {
+                mainResponse = client.directoryRequest(mainRequest);
+                System.Diagnostics.Debug.WriteLine("Response: " + mainResponse);
+                //The error handling changed from a web reference to a service reference.  guess the wsdl is more generic than i thought.
+                ErrorResponse[] eResponses = null;
+                BatchResponse bResponse = mainResponse.batchResponse;
+                Object[] responseItems = bResponse.Items;
+                if (responseItems != null)
+                {
+                    if (responseItems[0] is ErrorResponse)
+                    {
+                        ErrorResponse eResponse = (ErrorResponse)responseItems[0];
+                        System.Diagnostics.Debug.WriteLine(eResponse.message);
+                        System.Diagnostics.Debug.WriteLine(eResponse.detail);
+                        System.Diagnostics.Debug.WriteLine(eResponse.type);
+
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("Hooray no errors on response from adding a user");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine("Dang it: " + e);
+            }
+            return mainResponse;
         }
     }
 }

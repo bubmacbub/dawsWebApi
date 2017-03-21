@@ -1,0 +1,1812 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DawsWebApiService</name>
+    </assembly>
+    <members>
+        <member name="M:DawsWebApiService.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForMediaType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Sets the sample directly for all actions with the specified media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.GetModelDescriptionGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the model description generator.
+            </summary>
+            <param name="config">The configuration.</param>
+            <returns>The <see cref="T:DawsWebApiService.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/></returns>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
+            <summary>
+            Generates model descriptions for given types.
+            </summary>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
+            <summary>
+            Use this attribute to change the name of the <see cref="T:DawsWebApiService.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.UriParameters">
+            <summary>
+            Gets or sets the <see cref="T:DawsWebApiService.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> collection that describes the URI parameters for the API.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.RequestDocumentation">
+            <summary>
+            Gets or sets the documentation for the request.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.RequestModelDescription">
+            <summary>
+            Gets or sets the <see cref="T:DawsWebApiService.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the request body.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.RequestBodyParameters">
+            <summary>
+            Gets the request body parameter descriptions.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.ResourceDescription">
+            <summary>
+            Gets or sets the <see cref="T:DawsWebApiService.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the resource.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.ResourceProperties">
+            <summary>
+            Gets the resource property descriptions.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:DawsWebApiService.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,DawsWebApiService.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,DawsWebApiService.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters. 
+            First, it will look at the <see cref="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
+            one using <see cref="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:DawsWebApiService.Areas.HelpPage.ObjectGenerator"/>) and other
+            factories in <see cref="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.ResolveHttpRequestMessageType(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Resolves the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The type.</returns>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},DawsWebApiService.Areas.HelpPage.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Creates a new <see cref="T:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey"/> based on media type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.#ctor(DawsWebApiService.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey"/> based on <see cref="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,DawsWebApiService.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey"/> based on media type, <see cref="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:DawsWebApiService.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DawsWebApiService.Areas.HelpPage.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:DawsWebApiService.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:DawsWebApiService.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DawsWebApiService.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="M:DawsWebApiService.Controllers.NyGovQueryController.GetUser(System.String,System.String)">
+            <summary>
+            Looks up a particular user from NYSD's DAWS
+            </summary>
+            <param name="id">returns json</param>
+        </member>
+        <member name="M:DawsWebApiService.Controllers.NyGovQueryController.GetUsers(System.String)">
+            <summary>
+            Uses service reference to query an OU with additional filters
+            </summary>
+            <param name="ou"></param>
+            <returns></returns>
+        </member>
+        <member name="M:DawsWebApiService.Controllers.NyGovQueryController.AddUser">
+            <summary>
+            According to the permission of the user and the OU being inserted into will create a DAWS record
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.BatchRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.BatchRequest.authRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.BatchRequest.Items">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.BatchRequest.requestID">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.BatchRequest.processing">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.BatchRequest.responseOrder">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.BatchRequest.onError">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.AuthRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.AuthRequest.principal">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.DsmlMessage">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.DsmlMessage.control">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.DsmlMessage.requestID">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.Control">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.Control.controlValue">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.Control.type">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.Control.criticality">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.DsmlModification">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.DsmlModification.value">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.DsmlModification.name">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.DsmlModification.operation">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.DsmlModificationOperation">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.DsmlModificationOperation.add">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.DsmlModificationOperation.delete">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.DsmlModificationOperation.replace">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.AttributeDescriptions">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.AttributeDescriptions.attribute">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.AttributeDescription">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.AttributeDescription.name">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.MatchingRuleAssertion">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.MatchingRuleAssertion.value">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.MatchingRuleAssertion.dnAttributes">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.MatchingRuleAssertion.matchingRule">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.MatchingRuleAssertion.name">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.SubstringFilter">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SubstringFilter.initial">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SubstringFilter.any">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SubstringFilter.final">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SubstringFilter.name">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.AttributeValueAssertion">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.AttributeValueAssertion.value">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.AttributeValueAssertion.name">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.FilterSet">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.FilterSet.Items">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.FilterSet.ItemsElementName">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.Filter">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.Filter.Item">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.Filter.ItemElementName">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType.and">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType.approxMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType.equalityMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType.extensibleMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType.greaterOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType.lessOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType.not">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType.or">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType.present">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemChoiceType.substrings">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1.and">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1.approxMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1.equalityMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1.extensibleMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1.greaterOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1.lessOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1.not">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1.or">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1.present">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType1.substrings">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.ErrorResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ErrorResponse.message">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ErrorResponse.detail">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ErrorResponse.requestID">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ErrorResponse.type">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ErrorResponse.typeSpecified">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.ErrorResponseType">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ErrorResponseType.notAttempted">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ErrorResponseType.couldNotConnect">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ErrorResponseType.connectionClosed">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ErrorResponseType.malformedRequest">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ErrorResponseType.gatewayInternalError">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ErrorResponseType.authenticationFailed">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ErrorResponseType.unresolvableURI">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ErrorResponseType.other">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.ResultCode">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ResultCode.code">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ResultCode.descr">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ResultCode.descrSpecified">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.success">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.operationsError">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.protocolError">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.timeLimitExceeded">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.sizeLimitExceeded">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.compareFalse">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.compareTrue">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.authMethodNotSupported">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.strongAuthRequired">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.referral">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.adminLimitExceeded">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.unavailableCriticalExtension">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.confidentialityRequired">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.saslBindInProgress">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.noSuchAttribute">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.undefinedAttributeType">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.inappropriateMatching">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.constraintViolation">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.attributeOrValueExists">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.invalidAttributeSyntax">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.noSuchObject">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.aliasProblem">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.invalidDNSyntax">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.aliasDerefencingProblem">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.inappropriateAuthentication">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.invalidCredentials">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.insufficientAccessRights">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.busy">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.unavailable">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.unwillingToPerform">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.loopDetect">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.namingViolation">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.objectClassViolation">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.notAllowedOnNonLeaf">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.notAllowedOnRDN">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.entryAlreadyExists">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.objectClassModsProhibited">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.affectMultipleDSAs">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.LDAPResultCode.other">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.DsmlAttr">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.DsmlAttr.value">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.DsmlAttr.name">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.SearchResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchResponse.searchResultEntry">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchResponse.searchResultReference">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchResponse.searchResultDone">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchResponse.requestID">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.SearchResultEntry">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchResultEntry.attr">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchResultEntry.dn">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.SearchResultReference">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchResultReference.ref">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.LDAPResult">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.LDAPResult.resultCode">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.LDAPResult.errorMessage">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.LDAPResult.referral">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.LDAPResult.matchedDN">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.ExtendedResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ExtendedResponse.responseName">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ExtendedResponse.response">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.BatchResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.BatchResponse.Items">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.BatchResponse.ItemsElementName">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.BatchResponse.requestID">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType.addResponse">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType.authResponse">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType.compareResponse">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType.delResponse">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType.errorResponse">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType.extendedResponse">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType.modDNResponse">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType.modifyResponse">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.ItemsChoiceType.searchResponse">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.ExtendedRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ExtendedRequest.requestName">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ExtendedRequest.requestValue">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.AbandonRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.AbandonRequest.abandonID">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.CompareRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.CompareRequest.assertion">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.CompareRequest.dn">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.ModifyDNRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ModifyDNRequest.dn">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ModifyDNRequest.newrdn">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ModifyDNRequest.deleteoldrdn">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ModifyDNRequest.newSuperior">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.DelRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.DelRequest.dn">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.AddRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.AddRequest.attr">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.AddRequest.dn">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.ModifyRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ModifyRequest.modification">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.ModifyRequest.dn">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.SearchRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchRequest.filter">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchRequest.attributes">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchRequest.dn">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchRequest.scope">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchRequest.derefAliases">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchRequest.sizeLimit">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchRequest.timeLimit">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.daws.svc.ny.gov.SearchRequest.typesOnly">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.SearchRequestScope">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.SearchRequestScope.baseObject">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.SearchRequestScope.singleLevel">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.SearchRequestScope.wholeSubtree">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.SearchRequestDerefAliases">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.SearchRequestDerefAliases.neverDerefAliases">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.SearchRequestDerefAliases.derefInSearching">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.SearchRequestDerefAliases.derefFindingBaseObj">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.SearchRequestDerefAliases.derefAlways">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.BatchRequestProcessing">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.BatchRequestProcessing.sequential">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.BatchRequestProcessing.parallel">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.BatchRequestResponseOrder">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.BatchRequestResponseOrder.sequential">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.BatchRequestResponseOrder.unordered">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.daws.svc.ny.gov.BatchRequestOnError">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.BatchRequestOnError.resume">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.daws.svc.ny.gov.BatchRequestOnError.exit">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.dsmlQueryService">
+            <remarks/>
+        </member>
+        <member name="M:DawsWebApiService.dawsSoap.dsmlQueryService.#ctor">
+            <remarks/>
+        </member>
+        <member name="E:DawsWebApiService.dawsSoap.dsmlQueryService.directoryRequestCompleted">
+            <remarks/>
+        </member>
+        <member name="M:DawsWebApiService.dawsSoap.dsmlQueryService.directoryRequest(DawsWebApiService.dawsSoap.BatchRequest)">
+            <remarks/>
+        </member>
+        <member name="M:DawsWebApiService.dawsSoap.dsmlQueryService.directoryRequestAsync(DawsWebApiService.dawsSoap.BatchRequest)">
+            <remarks/>
+        </member>
+        <member name="M:DawsWebApiService.dawsSoap.dsmlQueryService.directoryRequestAsync(DawsWebApiService.dawsSoap.BatchRequest,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:DawsWebApiService.dawsSoap.dsmlQueryService.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.BatchRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.authRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.searchRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.modifyRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.addRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.delRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.modDNRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.compareRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.abandonRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.extendedRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.requestID">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.processing">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.responseOrder">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchRequest.onError">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.AuthRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.AuthRequest.principal">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.DsmlMessage">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.DsmlMessage.control">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.DsmlMessage.requestID">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.Control">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.Control.controlValue">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.Control.type">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.Control.criticality">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.DsmlModification">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.DsmlModification.value">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.DsmlModification.name">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.DsmlModification.operation">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.DsmlModificationOperation">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.DsmlModificationOperation.add">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.DsmlModificationOperation.delete">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.DsmlModificationOperation.replace">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.AttributeDescriptions">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.AttributeDescriptions.attribute">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.AttributeDescription">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.AttributeDescription.name">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.MatchingRuleAssertion">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.MatchingRuleAssertion.value">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.MatchingRuleAssertion.dnAttributes">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.MatchingRuleAssertion.matchingRule">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.MatchingRuleAssertion.name">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.SubstringFilter">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SubstringFilter.initial">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SubstringFilter.any">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SubstringFilter.final">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SubstringFilter.name">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.AttributeValueAssertion">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.AttributeValueAssertion.value">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.AttributeValueAssertion.name">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.FilterSet">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.FilterSet.Items">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.FilterSet.ItemsElementName">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.Filter">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.Filter.Item">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.Filter.ItemElementName">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.ItemChoiceType">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemChoiceType.and">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemChoiceType.approxMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemChoiceType.equalityMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemChoiceType.extensibleMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemChoiceType.greaterOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemChoiceType.lessOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemChoiceType.not">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemChoiceType.or">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemChoiceType.present">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemChoiceType.substrings">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.ItemsChoiceType">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemsChoiceType.and">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemsChoiceType.approxMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemsChoiceType.equalityMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemsChoiceType.extensibleMatch">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemsChoiceType.greaterOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemsChoiceType.lessOrEqual">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemsChoiceType.not">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemsChoiceType.or">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemsChoiceType.present">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ItemsChoiceType.substrings">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.ErrorResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ErrorResponse.message">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ErrorResponse.detail">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ErrorResponse.requestID">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ErrorResponse.type">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ErrorResponse.typeSpecified">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.ErrorResponseType">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ErrorResponseType.notAttempted">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ErrorResponseType.couldNotConnect">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ErrorResponseType.connectionClosed">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ErrorResponseType.malformedRequest">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ErrorResponseType.gatewayInternalError">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ErrorResponseType.authenticationFailed">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ErrorResponseType.unresolvableURI">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.ErrorResponseType.other">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.ResultCode">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ResultCode.code">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ResultCode.descr">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ResultCode.descrSpecified">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.LDAPResultCode">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.success">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.operationsError">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.protocolError">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.timeLimitExceeded">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.sizeLimitExceeded">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.compareFalse">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.compareTrue">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.authMethodNotSupported">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.strongAuthRequired">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.referral">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.adminLimitExceeded">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.unavailableCriticalExtension">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.confidentialityRequired">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.saslBindInProgress">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.noSuchAttribute">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.undefinedAttributeType">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.inappropriateMatching">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.constraintViolation">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.attributeOrValueExists">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.invalidAttributeSyntax">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.noSuchObject">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.aliasProblem">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.invalidDNSyntax">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.aliasDerefencingProblem">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.inappropriateAuthentication">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.invalidCredentials">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.insufficientAccessRights">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.busy">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.unavailable">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.unwillingToPerform">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.loopDetect">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.namingViolation">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.objectClassViolation">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.notAllowedOnNonLeaf">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.notAllowedOnRDN">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.entryAlreadyExists">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.objectClassModsProhibited">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.affectMultipleDSAs">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.LDAPResultCode.other">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.DsmlAttr">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.DsmlAttr.value">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.DsmlAttr.name">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.SearchResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchResponse.searchResultEntry">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchResponse.searchResultReference">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchResponse.searchResultDone">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchResponse.requestID">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.SearchResultEntry">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchResultEntry.attr">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchResultEntry.dn">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.SearchResultReference">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchResultReference.ref">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.LDAPResult">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.LDAPResult.resultCode">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.LDAPResult.errorMessage">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.LDAPResult.referral">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.LDAPResult.matchedDN">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.ExtendedResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ExtendedResponse.responseName">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ExtendedResponse.response">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.BatchResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchResponse.searchResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchResponse.authResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchResponse.modifyResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchResponse.addResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchResponse.delResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchResponse.modDNResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchResponse.compareResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchResponse.extendedResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchResponse.errorResponse">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.BatchResponse.requestID">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.ExtendedRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ExtendedRequest.requestName">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ExtendedRequest.requestValue">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.AbandonRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.AbandonRequest.abandonID">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.CompareRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.CompareRequest.assertion">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.CompareRequest.dn">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.ModifyDNRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ModifyDNRequest.dn">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ModifyDNRequest.newrdn">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ModifyDNRequest.deleteoldrdn">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ModifyDNRequest.newSuperior">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.DelRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.DelRequest.dn">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.AddRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.AddRequest.attr">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.AddRequest.dn">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.ModifyRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ModifyRequest.modification">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.ModifyRequest.dn">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.SearchRequest">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchRequest.filter">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchRequest.attributes">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchRequest.dn">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchRequest.scope">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchRequest.derefAliases">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchRequest.sizeLimit">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchRequest.timeLimit">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.SearchRequest.typesOnly">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.SearchRequestScope">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.SearchRequestScope.baseObject">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.SearchRequestScope.singleLevel">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.SearchRequestScope.wholeSubtree">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.SearchRequestDerefAliases">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.SearchRequestDerefAliases.neverDerefAliases">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.SearchRequestDerefAliases.derefInSearching">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.SearchRequestDerefAliases.derefFindingBaseObj">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.SearchRequestDerefAliases.derefAlways">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.BatchRequestProcessing">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.BatchRequestProcessing.sequential">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.BatchRequestProcessing.parallel">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.BatchRequestResponseOrder">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.BatchRequestResponseOrder.sequential">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.BatchRequestResponseOrder.unordered">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.BatchRequestOnError">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.BatchRequestOnError.resume">
+            <remarks/>
+        </member>
+        <member name="F:DawsWebApiService.dawsSoap.BatchRequestOnError.exit">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.directoryRequestCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:DawsWebApiService.dawsSoap.directoryRequestCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:DawsWebApiService.dawsSoap.directoryRequestCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+    </members>
+</doc>
